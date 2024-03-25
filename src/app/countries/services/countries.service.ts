@@ -10,35 +10,21 @@ export class CountriesService {
 
   constructor(private http: HttpClient) { }
 
-  // TODO: Refactor a funcion generica de http request
-  // private getHTTPResponse(url: string): Observable<Country[]> {
-  //   return this.http.get<Country[]>(
-  //     `${this.apiURL}/${url}`
-  //   ).pipe(
-  //     catchError(error => of([]))
-  //   );
-  // }
+  private getHTTPResponse(url: string): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiURL}/${url}`)
+      .pipe(
+        catchError(() => of([]))
+      );
+  }
 
   searchCapital(searchTerm: string): Observable<Country[]> {
-    return this.http.get<Country[]>(
-      `${this.apiURL}/capital/${searchTerm}`
-    ).pipe(
-      catchError(error => of([]))
-    );
+    return this.getHTTPResponse(`/capital/${searchTerm}`)
   }
   searchCountry(searchTerm: string): Observable<Country[]> {
-    return this.http.get<Country[]>(
-      `${this.apiURL}/name/${searchTerm}`
-    ).pipe(
-      catchError(error => of([]))
-    );
+    return this.getHTTPResponse(`/name/${searchTerm}`)
   }
   searchRegion(searchTerm: string): Observable<Country[]> {
-    return this.http.get<Country[]>(
-      `${this.apiURL}/region/${searchTerm}`
-    ).pipe(
-      catchError(error => of([]))
-    );
+    return this.getHTTPResponse(`/region/${searchTerm}`)
   }
   searchCountryByAlphaCode(code: string): Observable<Country | null> {
     return this.http.get<Country[]>(
